@@ -5,6 +5,6 @@ namespace weather.Core.Services
 {
     public interface IWeatherProvider
     {
-        Task<WeatherData> Get();
+        Task<WeatherData> Get(double latitude, double longitude);
     }
 }

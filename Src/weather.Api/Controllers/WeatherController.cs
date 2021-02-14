@@ -26,16 +26,20 @@ namespace weather.Api.Controllers
         }
 
         [HttpGet("Current")]
-        public async Task<IActionResult> GetCurrent()
+        public async Task<IActionResult> GetCurrent(
+            double latitude = 50.09704122828471, 
+            double longitude = 14.364210138987014)
         {
-            var current = await _weatherDataProvider.GetCurrent();
+            var current = await _weatherDataProvider.GetCurrent(latitude, longitude);
             return new JsonResult(current);
         }
 
         [HttpGet("Forecast")]
-        public async Task<IActionResult> GetForecast()
+        public async Task<IActionResult> GetForecast(
+            double latitude = 50.09704122828471,
+            double longitude = 14.364210138987014)
         {
-            var forecast = await _weatherDataProvider.GetForecast();
+            var forecast = await _weatherDataProvider.GetForecast(latitude, longitude);
             return new JsonResult(forecast);
         }
     }

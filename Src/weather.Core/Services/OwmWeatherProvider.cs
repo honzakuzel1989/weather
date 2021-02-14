@@ -14,7 +14,7 @@ namespace weather.Core.Services
     public class OwmWeatherProvider : IWeatherProvider
     {
         private const string URL = "https://api.openweathermap.org/data/2.5/onecall";
-        private const string URL_PARAMS = "?exclude=minutely,hourly,alerts&lat=50.09704122828471&lon=14.364210138987014&units=metric&appid=";
+        private const string URL_PARAMS = "?exclude=minutely,hourly,alerts&lat={0}&lon={1}&units=metric&appid={2}";
 
         private readonly HttpClient _httpClient;
         private readonly ILogger<OwmWeatherProvider> _logger;
@@ -26,19 +26,21 @@ namespace weather.Core.Services
             _logger = logger;
         }
 
-        public async Task<WeatherData> Get()
+        public async Task<WeatherData> Get(double latitude, double longitude)
         {
             var apikey = Environment.GetEnvironmentVariable("OWM_API_KEY")
                 ?? throw new InvalidOperationException("You have to provide OWM api key");
 
-            var url = URL + URL_PARAMS + apikey;
+            var url = string.Format(URL + URL_PARAMS, latitude, longitude, apikey);
             var result = await _httpClient.GetStringAsync(url);
 
             _logger.LogInformation($"Data from {url} downloaded...");
 
             var o = (OwmWeather)JsonSerializer.Deserialize(result, typeof(OwmWeather));
 
-            return new WeatherData(new Location("Vokovice, Praha 6"), GetCurrentWeather(o.current), GetDailyWeather(o.daily));
+            return new WeatherData(new Coordinates(o.lat, o.lon), 
+                GetCurrentWeather(o.current), 
+                GetDailyWeather(o.daily));
         }
 
         private DailyWeather[] GetDailyWeather(Daily[] daily)

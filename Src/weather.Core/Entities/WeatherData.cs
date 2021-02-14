@@ -6,26 +6,33 @@ namespace weather.Core.Entities
 {
     public class WeatherData
     {
-        public WeatherData(Location address, CurrentWeather current, DailyWeather[] daily)
+        public WeatherData(Coordinates address, CurrentWeather current, DailyWeather[] daily)
         {
-            Location = address;
+            Coordinates = address;
             Current = current;
             Daily = daily;
         }
 
-        public Location Location { get; set; }
+        public Coordinates Coordinates { get; set; }
         public CurrentWeather Current { get; }
         public DailyWeather[] Daily { get; }
     }
 
-    public class Location
+    public class Coordinates
     {
-        public Location(string title)
+        public Coordinates(double lat, double lon)
         {
-            Title = title;
+            Lat = lat;
+            Lon = lon;
         }
-        public string Title { get; }
 
+        public double Lat { get;}
+        public double Lon { get; }
+
+        public override string ToString()
+        {
+            return $"{Lat}, {Lon}";
+        }
     }
 
     public class CurrentWeather

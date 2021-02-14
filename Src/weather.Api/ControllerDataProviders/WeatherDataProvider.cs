@@ -26,18 +26,18 @@ namespace weather.Api.ControllerDataProviders
             _memoryCache = memoryCache;
         }
 
-        public async Task<object> GetCurrent()
+        public async Task<object> GetCurrent(double latitude, double longitude)
         {
             _logger.LogInformation($"Getting current data for {DateTime.Now.ToShortDateString()}...");
 
-            var weatherData = await _weatherProvider.Get();
+            var weatherData = await _weatherProvider.Get(latitude, longitude);
             var current = weatherData.Current;
 
             _logger.LogInformation($"Done.. Result: {current}");
 
             return new
             {
-                Location = weatherData.Location.Title,
+                Location = weatherData.Coordinates.ToString(),
                 Date = current.Date.ToString("ddd dd.MM."),
                 Caption = $"{current.Text}",
                 RealTemp = $"{current.RealTemp}",
@@ -51,7 +51,7 @@ namespace weather.Api.ControllerDataProviders
             };
         }
 
-        public async Task<object> GetForecast()
+        public async Task<object> GetForecast(double latitude, double longitude)
         {
             var weatherIndex = _memoryCache.GetOrCreate(WEATHER_INDEX_KEY, _ => 1);
             _logger.LogInformation($"Getting forecast data for {DateTime.Now.AddDays(weatherIndex).ToShortDateString()}...");
@@ -65,7 +65,7 @@ namespace weather.Api.ControllerDataProviders
                     : WEATHER_DATA_EXPIRATION_S_DEFAULT;
 
                 x.AbsoluteExpiration = DateTime.UtcNow.AddSeconds(wdex);
-                return await _weatherProvider.Get();
+                return await _weatherProvider.Get(latitude, longitude);
             });
 
             var day = weatherData.Daily[weatherIndex];
@@ -76,7 +76,7 @@ namespace weather.Api.ControllerDataProviders
 
             return new
             {
-                Location = weatherData.Location.Title,
+                Location = weatherData.Coordinates.ToString(),
                 Date = day.Date.ToString("ddd dd.MM."),
                 Caption = $"{day.Text}",
                 RealTemp = $"{day.RealTemp.Day}",
