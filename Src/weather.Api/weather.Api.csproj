@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>weather.Api</AssemblyName>
+    <UserSecretsId>ad085dc7-a730-49ac-bf5e-c65404956202</UserSecretsId>
+    <RootNamespace>weather.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\weather.Core\weather.Core.csproj" />
+  </ItemGroup>
+
+
+</Project>
