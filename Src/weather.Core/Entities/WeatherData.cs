@@ -67,7 +67,7 @@ namespace weather.Core.Entities
 
         public override string ToString()
         {
-            return $"{Title} ({Description})";
+            return char.ToUpper(Description[0]) + Description.Substring(1);
         }
     }
 
