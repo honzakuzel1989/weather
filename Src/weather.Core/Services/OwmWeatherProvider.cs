@@ -28,10 +28,10 @@ namespace weather.Core.Services
 
         public async Task<WeatherData> Get()
         {
-            //var apikey = Environment.GetEnvironmentVariable("OWM_API_KEY")
-            //    ?? throw new InvalidOperationException("You have to provide OWM api key");
+            var apikey = Environment.GetEnvironmentVariable("OWM_API_KEY")
+                ?? throw new InvalidOperationException("You have to provide OWM api key");
 
-            var url = URL + URL_PARAMS + "f61677fbf68c7dc4fc8cdf1e5fd3aa86";
+            var url = URL + URL_PARAMS + apikey;
             var result = await _httpClient.GetStringAsync(url);
 
             _logger.LogInformation($"Data from {url} downloaded...");
@@ -83,7 +83,8 @@ namespace weather.Core.Services
                 current.pressure,
                 current.humidity,
                 current.wind_speed,
-                GetWeatherText(current.weather.First()));
+                GetWeatherText(current.weather.First()),
+                UnixTimeStampToDateTime(current.dt));
         }
 
         private static SunTime GetSunTime(DateTime dateTime)

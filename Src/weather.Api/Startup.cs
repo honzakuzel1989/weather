@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using weather.Api.ControllerDataProviders;
 using weather.Core.Services;
 
 namespace weather.Api
@@ -27,8 +28,10 @@ namespace weather.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IHttpClientProvider, HttpClientProvider>();
+            services.AddTransient<IWeatherDataProvider, WeatherDataProvider>();
             services.AddTransient<IWeatherProvider, OwmWeatherProvider>();
 
+            services.AddMemoryCache();
             services.AddControllers();
         }
 

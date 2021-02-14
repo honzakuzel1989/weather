@@ -20,7 +20,7 @@
         public int pressure { get; set; }
         public int humidity { get; set; }
         public float dew_point { get; set; }
-        public int uvi { get; set; }
+        public float uvi { get; set; }
         public int clouds { get; set; }
         public int visibility { get; set; }
         public float wind_speed { get; set; }

@@ -30,7 +30,7 @@ namespace weather.Core.Entities
 
     public class CurrentWeather
     {
-        public CurrentWeather(SunTime sunrise, SunTime sunset, float realTemp, float feelsTemp, int pressure, int humidity, float windSpeed, WeatherText text)
+        public CurrentWeather(SunTime sunrise, SunTime sunset, float realTemp, float feelsTemp, int pressure, int humidity, float windSpeed, WeatherText text, DateTime date)
         {
             Sunrise = sunrise;
             Sunset = sunset;
@@ -40,6 +40,7 @@ namespace weather.Core.Entities
             Humidity = humidity;
             WindSpeed = windSpeed;
             Text = text;
+            Date = date;
         }
 
         public SunTime Sunrise { get; }
@@ -50,6 +51,7 @@ namespace weather.Core.Entities
         public int Humidity { get; }
         public float WindSpeed { get; }
         public WeatherText Text { get; }
+        public DateTime Date { get; }
     }
 
     public class WeatherText
@@ -71,7 +73,7 @@ namespace weather.Core.Entities
 
     public class DailyWeather
     {
-        public DailyWeather(DateTime date, SunTime sunrise, SunTime sunset, RealTemp realTemp, FeelsTemp feelsTemp, int pressure, int humidity, float windSpeed, float snow, float rain, WeatherText text, float probability)
+        public DailyWeather(DateTime date, SunTime sunrise, SunTime sunset, RealTemp realTemp, FeelsTemp feelsTemp, int pressure, int humidity, float windSpeed, float snow, float rain, WeatherText text, float pop)
         {
             Date = date;
             Sunrise = sunrise;
@@ -84,7 +86,7 @@ namespace weather.Core.Entities
             Snow = snow;
             Rain = rain;
             Text = text;
-            Probability = probability;
+            Pop = pop;
         }
 
         public DateTime Date { get; }
@@ -98,7 +100,7 @@ namespace weather.Core.Entities
         public float Snow { get; }
         public float Rain { get; }
         public WeatherText Text { get; }
-        public float Probability { get; }
+        public float Pop { get; }
     }
 
     public class RealTemp
