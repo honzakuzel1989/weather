@@ -93,7 +93,7 @@ namespace weather.Api.ControllerDataProviders
                 Rain = day.Rain,
                 Snow = day.Snow,
                 RainAndSnow = $"{day.Rain} / {day.Snow}",
-                Pop = day.Pop * 100,
+                Pop = (int)(day.Pop * 100),
             };
         }
     }
