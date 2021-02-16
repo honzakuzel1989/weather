@@ -30,7 +30,7 @@ namespace weather.Api.ControllerDataProviders
         {
             _logger.LogInformation($"Getting current data for {DateTime.Now.ToShortDateString()}...");
 
-            var weatherData = await _weatherProvider.Get(latitude, longitude);
+            var weatherData = await GetWeatherData(latitude, longitude);
             var current = weatherData.Current;
 
             _logger.LogInformation($"Done.. Result: {current}");
@@ -55,18 +55,8 @@ namespace weather.Api.ControllerDataProviders
         {
             var weatherIndex = _memoryCache.GetOrCreate(WEATHER_INDEX_KEY, _ => 1);
             _logger.LogInformation($"Getting forecast data for {DateTime.Now.AddDays(weatherIndex).ToShortDateString()}...");
-
-            var weatherData = await _memoryCache.GetOrCreateAsync(WEATHER_DATA_KEY, async x =>
-            {
-                _logger.LogInformation($"Cache miss. Downloading...");
-
-                var wdex = int.TryParse(Environment.GetEnvironmentVariable("WEATHER_DATA_EXPIRATION_S"), out var s)
-                    ? s
-                    : WEATHER_DATA_EXPIRATION_S_DEFAULT;
-
-                x.AbsoluteExpiration = DateTime.UtcNow.AddSeconds(wdex);
-                return await _weatherProvider.Get(latitude, longitude);
-            });
+            
+            var weatherData = await GetWeatherData(latitude, longitude);
 
             var day = weatherData.Daily[weatherIndex];
             _memoryCache.Set(WEATHER_INDEX_KEY, Interlocked.Increment(ref weatherIndex) >= weatherData.Daily.Length
@@ -95,6 +85,21 @@ namespace weather.Api.ControllerDataProviders
                 RainAndSnow = $"{day.Rain} / {day.Snow}",
                 Pop = (int)(day.Pop * 100),
             };
+        }
+
+        private async Task<Core.Entities.WeatherData> GetWeatherData(double latitude, double longitude)
+        {
+            return await _memoryCache.GetOrCreateAsync(WEATHER_DATA_KEY, async x =>
+            {
+                _logger.LogInformation($"Cache miss. Downloading...");
+
+                var wdex = int.TryParse(Environment.GetEnvironmentVariable("WEATHER_DATA_EXPIRATION_S"), out var s)
+                    ? s
+                    : WEATHER_DATA_EXPIRATION_S_DEFAULT;
+
+                x.AbsoluteExpiration = DateTime.UtcNow.AddSeconds(wdex);
+                return await _weatherProvider.Get(latitude, longitude);
+            });
         }
     }
 }
