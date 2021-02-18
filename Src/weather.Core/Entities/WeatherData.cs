@@ -37,7 +37,7 @@ namespace weather.Core.Entities
 
     public class CurrentWeather
     {
-        public CurrentWeather(SunTime sunrise, SunTime sunset, float realTemp, float feelsTemp, int pressure, int humidity, float windSpeed, WeatherText text, DateTime date)
+        public CurrentWeather(SunTime sunrise, SunTime sunset, float realTemp, float feelsTemp, int pressure, int humidity, float windSpeed, int windDirection, WeatherText text, DateTime date)
         {
             Sunrise = sunrise;
             Sunset = sunset;
@@ -48,6 +48,7 @@ namespace weather.Core.Entities
             WindSpeed = windSpeed;
             Text = text;
             Date = date;
+            WindDirection = windDirection;
         }
 
         public SunTime Sunrise { get; }
@@ -57,6 +58,7 @@ namespace weather.Core.Entities
         public int Pressure { get; }
         public int Humidity { get; }
         public float WindSpeed { get; }
+        public int WindDirection { get; }
         public WeatherText Text { get; }
         public DateTime Date { get; }
     }

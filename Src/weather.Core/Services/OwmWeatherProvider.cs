@@ -85,6 +85,7 @@ namespace weather.Core.Services
                 current.pressure,
                 current.humidity,
                 current.wind_speed,
+                current.wind_deg,
                 GetWeatherText(current.weather.First()),
                 UnixTimeStampToDateTime(current.dt));
         }
