@@ -82,7 +82,7 @@ namespace weather.Core.Entities
 
     public class DailyWeather
     {
-        public DailyWeather(DateTime date, SunTime sunrise, SunTime sunset, RealTemp realTemp, FeelsTemp feelsTemp, int pressure, int humidity, float windSpeed, float snow, float rain, WeatherText text, float pop)
+        public DailyWeather(DateTime date, SunTime sunrise, SunTime sunset, RealTemp realTemp, FeelsTemp feelsTemp, int pressure, int humidity, float windSpeed, int windDirection, float snow, float rain, WeatherText text, float pop)
         {
             Date = date;
             Sunrise = sunrise;
@@ -96,6 +96,7 @@ namespace weather.Core.Entities
             Rain = rain;
             Text = text;
             Pop = pop;
+            WindDirection = windDirection;
         }
 
         public DateTime Date { get; }
@@ -106,6 +107,7 @@ namespace weather.Core.Entities
         public int Pressure { get; }
         public int Humidity { get; }
         public float WindSpeed { get; }
+        public int WindDirection { get; }
         public float Snow { get; }
         public float Rain { get; }
         public WeatherText Text { get; }

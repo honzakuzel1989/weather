@@ -78,6 +78,7 @@ namespace weather.Api.ControllerDataProviders
                 Humidity = day.Humidity,
                 Pressure = day.Pressure,
                 WindSpeed = day.WindSpeed,
+                WindDirection = day.WindDirection,
                 Sunrise = $"{day.Sunrise}",
                 Sunset = $"{day.Sunset}",
                 SunTime = $"{day.Sunrise} - {day.Sunset}",

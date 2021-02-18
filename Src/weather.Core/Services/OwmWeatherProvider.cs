@@ -59,6 +59,7 @@ namespace weather.Core.Services
                 day.pressure,
                 day.humidity,
                 day.wind_speed,
+                day.wind_deg,
                 day.snow,
                 day.rain,
                 GetWeatherText(day.weather.First()),
